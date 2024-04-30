@@ -1,0 +1,38 @@
+-- A sample list of commands as defined in your structure.
+-- Make sure the command functions are callable, and descriptions are added.
+local commands_table = {
+  {
+    cmd = 'GoFmt',
+    label = 'Format Go code',
+    desc = 'Run gofmt on the current buffer',
+    func = function()
+      require('go.format').gofmt()  -- Call the actual function that formats Go code.
+    end
+  },
+  {
+    cmd = 'GoTest',
+    label = 'Test Go code',
+    desc = 'Run Go tests',
+    func = function()
+      require('go.gotest').test()  -- Run Go tests.
+    end
+  },
+  -- Add more commands as needed.
+}
+
+-- Function to integrate these commands into the Telescope picker.
+local function generate_telescope_commands()
+  local formatted_commands = {}
+  for _, command in ipairs(commands_table) do
+    table.insert(formatted_commands, {
+      label = command.label,
+      desc = command.desc,
+      command = command.func,
+    })
+  end
+  return formatted_commands
+end
+
+return {
+  generate_telescope_commands = generate_telescope_commands,
+}
